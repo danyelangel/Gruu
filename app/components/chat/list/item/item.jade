@@ -1,0 +1,27 @@
+.itemWrapper(layout="column")
+  .top(layout="row")
+    .thumbnail(
+    ng-style="{backgroundImage: 'url('+$ctrl.item.message.image.imageSrc+')'}")
+    .text(flex)
+      span.title|{{$ctrl.item.message.title}}
+      br
+      span.subtitle|{{$ctrl.item.message.address}}
+      br
+      span.subtitle|$30K - $50K
+    .status
+  .bottom(
+  layout="row" 
+  layout-align="center center")
+    .flags(
+    flex
+    layout="row" 
+    layout-align="start center" 
+    layout-wrap)
+      span|Wi-Fi
+      .dot|&#149;
+      span|Parking
+      .dot|&#149;
+      span|Pick-Up
+      .dot|&#149;
+      
+    a|Choose

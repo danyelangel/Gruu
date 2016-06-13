@@ -1,0 +1,53 @@
+md-dialog#list-dialog-wrapper(
+aria-label="Choose Restaurant"
+layout="column")
+  md-toolbar.md-whiteframe-2dp
+    .md-toolbar-tools(
+    ng-hide="isSearching")
+      h2|Restaurants
+      div(flex)
+      md-button.md-icon-button(
+      ng-click="isSearching = true")
+        md-icon|search
+      md-button.md-icon-button(
+      ng-click="$ctrl.filter()")
+        md-icon|sort
+    .md-toolbar-tools(
+    ng-show="isSearching")
+      md-input-container.search-field(
+      ng-if="isSearching")
+        input(
+        aria-label="Search"
+        ng-model="search"
+        md-autofocus="true")
+      div(flex)
+      md-button.md-icon-button(
+      ng-click="isSearching = false")
+        md-icon|cancel
+      md-button.md-icon-button(
+      ng-click="$ctrl.filter()")
+        md-icon|sort
+  md-content(
+  flex 
+  layout="column")
+    md-tabs(
+    flex 
+    md-theme="bright"
+    md-enable-disconnect="true" 
+    md-swipe-content="true")
+      md-tab(label="italian")
+        md-content
+          chat-list-item(
+          ng-repeat="item in $ctrl.options" 
+          layout="row"
+          item="item")
+      md-tab(label="chinese")
+        md-content
+          chat-list-item(
+          ng-repeat="item in $ctrl.options" 
+          layout="row"
+          item="item")
+  md-dialog-actions(layout="row").flat-background
+    md-button.md-primary.md-raised(
+    ng-click="$ctrl.cancel()")
+      |Close

@@ -1,0 +1,7 @@
+chat-stage(
+ng-repeat="state in $ctrl.conversation"
+state="state"
+is-disabled="$ctrl.isDisabled"
+on-interrupt="$ctrl.onInterrupt")
+ng-transclude  
+#conversation-end

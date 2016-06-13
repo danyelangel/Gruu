@@ -1,0 +1,27 @@
+.keyboardWrapper(layout="row" ng-class="{'animationHide': $ctrl.hideOptions}")
+
+  .option-group(
+  flex
+  ng-if="$ctrl.keyboard.type === 'BUBBLES'")
+    
+    chat-bubble(
+    flex="66"
+    ng-repeat="bubble in $ctrl.keyboard.options"
+    ng-class="$ctrl.getOptionClass($index, $first, $last)"
+    ng-click="$ctrl.do($index, bubble)"
+    message="bubble.message")
+    
+  .card-group(
+  flex
+  ng-if="$ctrl.keyboard.type === 'CARDS'")
+    
+    chat-card(
+    flex="noshrink"
+    ng-repeat="card in $ctrl.keyboard.options"
+    message="card.message"
+    ng-click="$ctrl.do($index, card)")
+    
+  chat-list.option-group(
+  flex
+  options="$ctrl.keyboard.options"
+  ng-if="$ctrl.keyboard.type === 'LIST'")

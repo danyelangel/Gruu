@@ -1,0 +1,25 @@
+chat-el {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: none;
+}
+.chatWrapper {
+  max-height: 100%;
+  .hidden-toolbar {
+    opacity: 0;
+  }
+  .fixed-toolbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    opacity: 1;
+  }
+  md-toolbar {
+    font-family: 'Pacifico', sans-serif;
+    font-size: 1.125em;
+  }
+}

@@ -1,0 +1,17 @@
+.chatWrapper(
+layout="column"
+)
+  md-toolbar.md-whiteframe-2dp.fixed-toolbar
+    .md-toolbar-tools
+      div(flex)
+      h2|Gruu
+      div(flex)
+  md-toolbar.hidden-toolbar
+  chat-conversation#chat-conversation(
+  conversation="$ctrl.conversation"
+  is-disabled="!$ctrl.keyboard.enabled"
+  on-interrupt="$ctrl.interrupt()"
+  flex)
+    chat-keyboard(
+    ng-if="$ctrl.keyboard.enabled" 
+    keyboard="$ctrl.keyboard")

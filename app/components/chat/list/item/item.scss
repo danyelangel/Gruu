@@ -1,0 +1,56 @@
+chat-list-item {
+  margin: 1em;
+  .itemWrapper {
+    display: flex;
+    border-radius: 1em;
+    background-color: #fff;
+    color: #000;
+    width: 100%;
+    position: relative;
+  }
+  .status {
+    margin: 1em;
+    background-color: green;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+  }
+  .top {
+    position: relative;
+  }
+  .bottom {
+    padding: .5em .75em;
+    border-top: 1px solid #616161;
+    font-size: .85em;
+    span, .dot {
+      font-size: .7em;
+      color: #9E9E9E;
+    }
+    .dot {
+      margin: 0 .5em;
+    }
+    a {
+      color: #388E3C;
+    }
+  }
+  .thumbnail {
+    position: absolute;
+    height: 100%;
+    width: 90px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-top-left-radius: 1em;
+  }
+  .text {
+    margin-left: 90px;
+    padding: 8px;
+  }
+  .title {
+    font-size: 1.125em;
+  }
+  .subtitle {
+    font-size: .75em;
+    color: #757575;
+  }
+}

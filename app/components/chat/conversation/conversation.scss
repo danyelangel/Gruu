@@ -1,0 +1,13 @@
+chat-conversation {
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: .5em 0;
+  background-color: rgba(0,0,0,0);
+}
+chat-conversation::-webkit-scrollbar {
+  -webkit-appearance: none;
+  background: transparent;
+  width: 0;
+  height: 0;
+  padding: .5em 0;
+}
