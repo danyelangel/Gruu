@@ -17,15 +17,19 @@
     get conversation() {
       return this.chat.conversation;
     }
-    interrupt() {
+    regress() {
       return (process) => {
-        let action = this.Orchestrator[process.action.orchestrator].run(true);
-        this.ChatActions.interrupt(action);
+        this.Orchestrator.regress(process.processPosition);
+        this.ChatActions.cancel();
       };
     }
   }
   angular
-    .module('chat', ['duScroll', 'ngAnimate'])
+    .module('chat', [
+      'duScroll',
+      'ngAnimate',
+      'angular.filter'
+    ])
     .component('chatEl', {
       templateUrl: 'components/chat/chat.html',
       controller: Controller

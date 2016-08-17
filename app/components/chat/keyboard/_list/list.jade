@@ -1,0 +1,61 @@
+md-dialog#list-dialog-wrapper(
+aria-label="{{$ctrl.title}}"
+layout="column")
+  md-toolbar.md-whiteframe-2dp(
+  ng-class="{'md-accent': isSearching}"
+  md-theme="bright")
+    .md-toolbar-tools(
+    ng-class="{hide: isSearching}")
+      h2|{{$ctrl.title}}
+      div(flex)
+      md-button.md-icon-button(
+      ng-click="isSearching = true")
+        md-icon|search
+      md-button.md-icon-button(
+      ng-click="$ctrl.openFilter()")
+        md-icon|tune
+    .md-toolbar-tools(
+    ng-class="{hide: !isSearching}")
+      md-input-container.search-field.md-accent(
+      ng-if="isSearching")
+        input(
+        ng-if="isSearching"
+        aria-label="Search"
+        ng-model="$ctrl.query"
+        auto-focus)
+      div(flex)
+      md-button.md-icon-button(
+      ng-click="isSearching = false; $ctrl.query = undefined")
+        md-icon|cancel
+      md-button.md-icon-button(
+      ng-click="$ctrl.openFilter()")
+        md-icon|tune
+  md-content(
+  flex 
+  layout="column")
+    md-tabs(
+    flex 
+    md-theme="bright"
+    md-enable-disconnect="true" 
+    md-swipe-content="true")
+      md-tab(
+      label="{{$ctrl.$l('ALL')}}")
+        md-content
+          chat-list-item(
+          ng-repeat="item in $ctrl.options | pick: $ctrl.pickFiltered() | fuzzyBy: 'message.title': $ctrl.query | orderBy: $ctrl.filter.sort: $ctrl.filter.sortReverse | orderBy: 'status': true"
+          layout="row"
+          item="item"
+          ng-click="$ctrl.select($index, item)")
+      md-tab(
+      ng-repeat="(key, value) in $ctrl.options | groupBy: 'category'"
+      label="{{key}}")
+        md-content
+          chat-list-item(
+          ng-repeat="item in value | pick: $ctrl.pickFiltered() | fuzzyBy: 'message.title': $ctrl.query | orderBy: $ctrl.filter.sort: $ctrl.filter.sortReverse | orderBy: 'status': true"
+          layout="row"
+          item="item"
+          ng-click="$ctrl.select($index, item)")
+  md-dialog-actions(layout="row").flat-background
+    md-button.md-primary.md-raised(
+    ng-click="$ctrl.cancel()")
+      |{{$ctrl.$l('CLOSE')}}

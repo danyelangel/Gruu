@@ -1,0 +1,9 @@
+firedux(
+ref=""
+fb-ref=""
+on-data="processes=$data;actions=$actions")
+conversation
+  finished-process(
+  ng-repeat="process in processes"
+  on-finished="actions.next()"
+  on-undo="")

@@ -10,27 +10,31 @@
       this.$l = Label.$l(CuisineLabels);
     }
     run() {
-      return () => {
+      return (processPosition) => {
         console.groupEnd();
         console.group('CUISINE');
         return Promise.resolve()
           .then(this.Helpers.showLoader())
           .then(this.getCuisines())
           .then(this.Helpers.hideLoader())
-          .then(this.chooseCuisine())
+          .then(this.chooseCuisine(processPosition))
           .catch(this.run());
       };
     }
     getCuisines() {
+      let promise = Promise.resolve();
       return () => {
-        return this.CuisineActions.getCuisines();
+        if (!this.Store.state.cuisine.cuisines) {
+          promise = this.CuisineActions.getCuisines();
+        }
+        return promise;
       };
     }
-    chooseCuisine() {
+    chooseCuisine(processPosition) {
       return () => {
         let cuisines = this.Store.state.cuisine.cuisines,
             keyboard = this.getKeyboard(cuisines),
-            conversation = this.getConversation(),
+            conversation = this.getConversation(processPosition),
             stage = {
               keyboard: keyboard,
               conversation: conversation
@@ -44,21 +48,19 @@
         });
       };
     }
-    getConversation() {
+    getConversation(processPosition) {
       let req = [this.$l('CHOOSE_CUISINE')],
           resResolve = [],
           resReject = [this.$l('CHOOSE_CUISINE_FAILED')],
-          action = {
+          regress = {
             text: this.$l('CHOOSE_AGAIN'),
-            action: {
-              orchestrator: 'Cuisine'
-            }
+            processPosition: processPosition
           },
           conversation = this.StageHelper.getConversation(
             req,
             resResolve,
             resReject,
-            action
+            regress
           );
       return conversation;
     }

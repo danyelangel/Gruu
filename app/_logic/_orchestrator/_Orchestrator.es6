@@ -1,58 +1,61 @@
 (function () {
   'use strict';
   class Service {
-    constructor(ChatActions, Label, $timeout, OrchestratorLabels, AuthOrchestrator, CuisineOrchestrator, RestaurantOrchestrator) {
-      this.ChatActions = ChatActions;
-      this.$l = Label.$l(OrchestratorLabels);
+    constructor(
+      $timeout,
+      Store,
+      AppOrchestrator,
+      AuthOrchestrator,
+      CuisineOrchestrator,
+      RestaurantOrchestrator,
+      ReservationOrchestrator
+    ) {
+      this.$timeout = $timeout;
+      this.Store = Store;
+      this.App = AppOrchestrator;
       this.Auth = AuthOrchestrator;
       this.Cuisine = CuisineOrchestrator;
       this.Restaurant = RestaurantOrchestrator;
-      this.$timeout = $timeout;
+      this.Reservation = ReservationOrchestrator;
       this.queue = [];
       this.defaultQueue = [
-        this.begin(),
-//        this.Restaurant.run(),
+        this.App.run(),
         this.Auth.run(),
         this.Cuisine.run(),
-        this.Restaurant.run()
+        this.Restaurant.run(),
+        this.Reservation.runPeople(),
+        this.Reservation.runDate(),
+        this.Reservation.runTime()
       ];
       this.currentProcess = 0;
     }
     run() {
       return () => {
-        let current = this.currentProcess + 1,
+        let current = this.currentProcess,
             next = this.queue[current];
-        this.currentProcess++;
         if (!angular.isFunction(next)) {
-          this.queue = this.defaultQueue;
-          this.currentProcess = 0;
+          this.queue = this.queue.concat(this.defaultQueue);
         }
-        this.queue[this.currentProcess]()
+        next = this.queue[current];
+        next(current)
           .then(() => {
             this.$timeout(this.run());
           })
           .catch(() => {
             this.$timeout(this.run());
           });
+        this.currentProcess++;
       };
     }
-    begin() {
-      let message = {
-        text: this.$l('WELCOME')
-      };
-      return () => {
-        console.groupEnd();
-        console.group('BEGIN');
-        return this.ChatActions.newMessage(message);
-      };
+    regress(processPosition) {
+      this.currentProcess = processPosition;
+      this.Store.dispatch({
+        type: 'REGRESS_STATE',
+        data: processPosition
+      });
     }
   }
   angular
     .module('gruu.logic.orchestrator', [])
-    .service('Orchestrator', Service)
-    .constant('OrchestratorLabels', {
-      WELCOME: {
-        en: 'Welcome to Gruu'
-      }
-    });
+    .service('Orchestrator', Service);
 }());

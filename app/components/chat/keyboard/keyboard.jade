@@ -1,16 +1,42 @@
 .keyboardWrapper(layout="row" ng-class="{'animationHide': $ctrl.hideOptions}")
 
+  // BUBBLES
   .option-group(
   flex
+  layout="column"
+  layout-align="start end"
   ng-if="$ctrl.keyboard.type === 'BUBBLES'")
     
     chat-bubble(
-    flex="66"
+    flex="nogrow"
     ng-repeat="bubble in $ctrl.keyboard.options"
-    ng-class="$ctrl.getOptionClass($index, $first, $last)"
-    ng-click="$ctrl.do($index, bubble)"
-    message="bubble.message")
+    ng-class="$ctrl.getOptionClass($index, $first, $last && !$ctrl.keyboard.cancelOption)"
+    ng-click="$ctrl.do()($index, bubble)"
+    message="bubble.message"
+    md-colors="{background: 'primary'}")
     
+    chat-bubble(
+    flex="nogrow"
+    ng-if="$ctrl.keyboard.cancelOption"
+    ng-class="$ctrl.getOptionClass(false, false, true)"
+    ng-click="$ctrl.skip()()"
+    message="$ctrl.keyboard.cancelOption"
+    md-colors="{background: 'primary'}")
+    
+  // BUBBLES_SCROLL
+  .card-group(
+  flex
+  ng-if="$ctrl.keyboard.type === 'BUBBLES_SCROLL'")
+    
+    div(layout="row" layout-margin)
+      chat-bubble.single(
+      flex="noshrink"
+      ng-repeat="bubble in $ctrl.keyboard.options"
+      ng-click="$ctrl.do()($index, bubble)"
+      message="bubble.message"
+      md-colors="{background: 'primary'}")
+  
+  // CARDS
   .card-group(
   flex
   ng-if="$ctrl.keyboard.type === 'CARDS'")
@@ -19,9 +45,32 @@
     flex="noshrink"
     ng-repeat="card in $ctrl.keyboard.options"
     message="card.message"
-    ng-click="$ctrl.do($index, card)")
+    ng-click="$ctrl.do()($index, card)")
     
+  // LIST
   chat-list.option-group(
   flex
+  ng-if="$ctrl.keyboard.type === 'LIST'"
+  
   options="$ctrl.keyboard.options"
-  ng-if="$ctrl.keyboard.type === 'LIST'")
+  filter="$ctrl.keyboard.filter"
+  title="$ctrl.keyboard.title"
+  
+  on-select="$ctrl.do()"
+  )
+  
+  // DATEPICKER
+  chat-datepicker(
+  ng-if="$ctrl.keyboard.type === 'DATEPICKER' && !$ctrl.hideCalendar"
+  parameters="$ctrl.keyboard.parameters"
+  on-select="$ctrl.do()"
+  on-close="$ctrl.closeDatepicker()"
+  )
+  .option-group(
+  flex
+  ng-if="$ctrl.keyboard.type === 'DATEPICKER' && $ctrl.hideCalendar")
+    chat-bubble.single(
+    flex="66"
+    ng-click="$ctrl.hideCalendar = false"
+    message="{text: 'Show Calendar'}"
+    md-colors="{background: 'primary'}")

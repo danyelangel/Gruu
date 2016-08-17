@@ -6,22 +6,25 @@
     .config(config);
 
   function config($mdThemingProvider) {
+    let defaultColor = 'green',
+        brightness = '600';
     $mdThemingProvider.theme('default')
-      .primaryPalette('green', {
-        default: '700'
+      .primaryPalette(defaultColor, {
+        default: brightness
       })
       .accentPalette('grey', {
         default: '900'
-      })
-      .backgroundPalette('grey', {
-        default: '900'
       }).dark();
     $mdThemingProvider.theme('bright')
-      .primaryPalette('green', {
-        default: '500'
+      .primaryPalette(defaultColor, {
+        default: brightness
       })
       .accentPalette('grey', {
         default: '50'
       });
+    $mdThemingProvider.theme('red')
+      .primaryPalette('red');
+    $mdThemingProvider.theme('green')
+      .primaryPalette('green');
   }
 }());

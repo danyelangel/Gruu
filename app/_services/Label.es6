@@ -14,7 +14,13 @@
       };
     }
   }
+  function filter(Lang) {
+    return (labelId, labels) => {
+      return labels[labelId][Lang.lang];
+    };
+  }
   angular
     .module('gruu.services')
-    .service('Label', Service);
+    .service('Label', Service)
+    .filter('label', filter);
 }());

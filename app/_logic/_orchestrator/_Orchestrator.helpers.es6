@@ -3,16 +3,16 @@
   'use strict';
   class Service {
     constructor(ChatActions) {
-      this.ChatActions = ChatActions;
+      this.Chat = ChatActions;
     }
     showLoader() {
       return () => {
-        return this.ChatActions.showLoader();
+        return this.Chat.showLoader();
       };
     }
     hideLoader() {
       return () => {
-        return this.ChatActions.hideLoader();
+        return this.Chat.hideLoader();
       };
     }
   }

@@ -1,0 +1,27 @@
+.message(
+flex="66"
+ng-if="$ctrl.loading"
+layout="row"
+layout-align="center center")
+  .dot(
+  ng-repeat="dot in [0,1,2]" 
+  ng-class="'dot-' + dot")
+.message(
+flex="66"
+ng-if="!$ctrl.loading"
+ng-hide="$ctrl.message.image"
+layout="column"
+layout-align="center center")
+  span|{{$ctrl.message.text}}
+  span.regress(
+  ng-if="$ctrl.regress"
+  ng-class="{disabled: $ctrl.isDisabled}"
+  ng-click="$ctrl.onRegress()()()"
+  md-colors="{color: 'primary'}")
+    |{{$ctrl.regress.text}}
+chat-card(
+ng-if="$ctrl.message.image"
+message="$ctrl.message"
+is-disabled="$ctrl.isDisabled"
+regress="$ctrl.regress"
+on-regress="$ctrl.onRegress()()")

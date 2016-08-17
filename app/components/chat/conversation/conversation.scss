@@ -1,10 +1,12 @@
 chat-conversation {
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
   padding: .5em 0;
+  display: block;
+}
+#chat-conversation {
+  -webkit-overflow-scrolling: touch;
   background-color: rgba(0,0,0,0);
 }
-chat-conversation::-webkit-scrollbar {
+#chat-conversation::-webkit-scrollbar {
   -webkit-appearance: none;
   background: transparent;
   width: 0;

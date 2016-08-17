@@ -1,0 +1,27 @@
+.incoming(
+ng-if="$ctrl.state.inboundRequest.messages.length")
+  chat-message(
+  incoming
+  ng-repeat="message in $ctrl.state.inboundRequest.messages"
+  message="message")
+
+.outcoming(
+ng-if="$ctrl.state.outbound.messages.length")
+  chat-message(
+  outcoming
+  ng-repeat="message in $ctrl.state.outbound.messages"
+  message="message"
+  is-disabled="$ctrl.isDisabled"
+  regress="$ctrl.state.regress"
+  on-regress="$ctrl.onRegress()()($ctrl.state.regress)")
+
+.incoming(
+ng-if="$ctrl.state.showLoader")
+  chat-message(
+  loading="true")
+
+.incoming(
+ng-if="$ctrl.state.inboundResponse.messages.length")
+  chat-message(
+  incoming
+  ng-repeat="message in $ctrl.state.inboundResponse.messages"  message="message")

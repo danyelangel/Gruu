@@ -15,7 +15,7 @@
           bottom = this.$document[0].getElementById('conversation-end'),
           conversationEl = angular.element(conversation),
           bottomEl = angular.element(bottom);
-      conversationEl.scrollToElement(bottomEl, 0, 300);
+      conversationEl.scrollToElement(bottomEl, 0, 700);
     }
   }
   angular
@@ -27,7 +27,7 @@
       bindings: {
         conversation: '<',
         isDisabled: '<',
-        onInterrupt: '&'
+        onRegress: '&'
       }
     });
 }());

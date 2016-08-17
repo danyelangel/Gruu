@@ -1,0 +1,16 @@
+.cardWrapper(
+layout="column"
+ng-class="{hasAction: $ctrl.action}")
+  .imageWrapper(
+  flex
+  ng-style="{backgroundImage: 'url('+$ctrl.message.image.imageSrc+')'}")
+  .text
+    h1|{{$ctrl.message.title}}
+    .md-body-1
+      |{{$ctrl.message.subtitles[0]}}
+  .action(
+  ng-if="$ctrl.regress"
+  ng-class="{disabled: $ctrl.isDisabled}"
+  ng-click="$ctrl.onRegress()()"
+  md-colors="{color: 'primary'}")
+    |{{$ctrl.regress.text}}

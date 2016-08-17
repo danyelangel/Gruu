@@ -1,0 +1,10 @@
+.datepicker-wrapper(layout="row" layout-align="end" style="height: 0")
+  .bubble-wrapper(ng-if="$ctrl.showCalendar")
+    md-datepicker(
+    md-min-date="$ctrl.parameters.minDate"
+    md-max-date="$ctrl.parameters.maxDate"
+    input-auto-focus
+    md-open-on-focus
+    ng-model="$ctrl.date"
+    calendar-on-blur="$ctrl.onCancel()()"
+    style="opacity: 0; height: 0")

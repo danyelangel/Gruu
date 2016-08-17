@@ -1,0 +1,27 @@
+.itemWrapper(layout="column")
+  .top(layout="row")
+    .thumbnail(
+    ng-style="{backgroundImage: 'url('+$ctrl.message.image.imageSrc+')'}")
+    .text(flex layout="column")
+      span.title|{{$ctrl.message.title}}
+      span.subtitle(
+      ng-repeat="subtitle in $ctrl.message.subtitles")
+        |{{subtitle}}
+    .status(
+    md-colors="{background: '{{$ctrl.status}}-primary'}")
+  .bottom(
+  layout="row" 
+  layout-align="center center")
+    .flags(
+    flex
+    layout="row" 
+    layout-align="start center" 
+    layout-wrap)
+      div(
+      layout="row"
+      ng-repeat="flag in $ctrl.message.flags")
+        span|{{flag}}
+        .dot(ng-hide="$last")|&#149;
+      
+    a(
+    md-colors="{color: 'primary'}")|Choose

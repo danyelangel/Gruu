@@ -1,0 +1,33 @@
+md-bottom-sheet.filter-wrapper
+  div(layout="row" layout-align="center center")
+    .md-body-2(ng-if="$ctrl.sort")
+      |{{$ctrl.$l('SORT_BY') | uppercase}}
+    md-button.md-icon-button(
+    ng-if="$ctrl.sort[$ctrl.filter.sort].reversable"
+    ng-click="$ctrl.filter.sortReverse = !$ctrl.filter.sortReverse")
+      md-icon|{{$ctrl.filter.sortReverse?'arrow_drop_down':'arrow_drop_up'}}
+    div(flex)
+    md-button.md-icon-button(
+    auto-focus
+    ng-click="$ctrl.close()")
+      md-icon|cancel
+  md-radio-group(ng-model="$ctrl.filter.sort")
+    md-list
+      md-list-item(ng-repeat="(key, value) in $ctrl.sort")
+        md-radio-button.md-primary(
+        ng-value="key"
+        style="outline: none"
+        ng-click="$ctrl.filter.sortReverse = false")|{{value.text}}
+  div(layout="row" layout-align="center center")
+    .md-body-2(ng-if="$ctrl.flags")
+      |{{$ctrl.$l('FLAGS') | uppercase}}
+    div(flex)
+    md-button.md-raised(
+    ng-click="$ctrl.filter.flags = {}")
+      |{{$ctrl.$l('RESET')}}
+  md-list
+    md-list-item(ng-repeat="(key, value) in $ctrl.flags")
+      md-checkbox(
+      style="width: 100%"
+      ng-model="$ctrl.filter.flags[key]")
+        span|{{value.text}}

@@ -1,7 +1,15 @@
 (function () {
   'use strict';
   class Service {
-    constructor(ChatActions, RestaurantLabels, Label, RestaurantActions, ChatHelper, Store, OrchestratorHelpers) {
+    constructor(
+      ChatActions,
+      RestaurantActions,
+      OrchestratorHelpers,
+      ChatHelper,
+      Store,
+      RestaurantLabels,
+      Label
+    ) {
       this.ChatActions = ChatActions;
       this.RestaurantActions = RestaurantActions;
       this.Helpers = OrchestratorHelpers;
@@ -10,75 +18,51 @@
       this.$l = Label.$l(RestaurantLabels);
     }
     run() {
-      return () => {
+      return (processPosition) => {
         console.groupEnd();
         console.group('RESTAURANT');
         return Promise.resolve()
           .then(this.Helpers.showLoader())
           .then(this.getList())
           .then(this.Helpers.hideLoader())
-          .then(this.choose());
+          .then(this.choose(processPosition));
       };
     }
     getList() {
+      let promise = Promise.resolve();
       return () => {
-        return this.RestaurantActions.getList();
+        if (!this.Store.state.restaurant.restaurants) {
+          promise = this.RestaurantActions.getList();
+        }
+        return promise;
       };
     }
-    choose() {
+    choose(processPosition) {
       return () => {
-        let restaurants = this.Store.state.restaurant.restaurants,
-            keyboard = this.getKeyboard(restaurants),
-            conversation = this.getConversation(),
+        let keyboard = this.Store.state.restaurant.keyboard,
+            conversation = this.getConversation(processPosition),
             stage = {
               keyboard: keyboard,
               conversation: conversation
             };
-        return new Promise((resolve) => {
-          this.ChatActions
-            .newStage(stage)
-            .then(() => {
-              resolve();
-            });
-        });
+        return this.ChatActions.newStage(stage);
       };
     }
-    getConversation() {
+    getConversation(processPosition) {
       let req = [this.$l('CHOOSE_RESTAURANT')],
           resResolve = [],
           resReject = [this.$l('CHOOSE_RESTAURANT_FAILED')],
-          action = {
+          regress = {
             text: this.$l('CHOOSE_AGAIN'),
-            action: {
-              orchestrator: 'Restaurant'
-            }
+            processPosition: processPosition
           },
           conversation = this.StageHelper.getConversation(
             req,
             resResolve,
             resReject,
-            action
+            regress
           );
       return conversation;
-    }
-    getKeyboard(data) {
-      let options = [],
-          keyboard = {
-            actionProvider: 'Restaurant',
-            action: 'choose',
-            options: options,
-            type: 'LIST'
-          };
-      angular.forEach(data, (value, key) => {
-        options.push({
-          data: {
-            index: key,
-            key: value.$key
-          },
-          message: value
-        });
-      });
-      return keyboard;
     }
   }
   angular
@@ -93,6 +77,24 @@
       },
       CHOOSE_RESTAURANT_FAILED: {
         en: 'Couldn\'t choose restaurant. Please try again.'
+      },
+      RESTAURANTS: {
+        en: 'Restaurants'
+      },
+      PRICE: {
+        en: 'Price'
+      },
+      RATING: {
+        en: 'Rating'
+      },
+      WIFI: {
+        en: 'Wi-Fi'
+      },
+      PARKING: {
+        en: 'Parking'
+      },
+      PICKUP: {
+        en: 'Pick Up'
       }
     });
 }());

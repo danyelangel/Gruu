@@ -14,16 +14,6 @@
         console.group('AUTH');
         return Promise.resolve()
           .then(this.checkAuth())
-          .then(() => {
-            return Promise.resolve()
-              .then(this.Helpers.hideLoader())
-              .then(this.welcome());
-          })
-          .catch(() => {
-            return Promise.resolve()
-              .then(this.Helpers.hideLoader())
-              .then(this.login());
-          })
           .catch(this.run());
       };
     }
@@ -33,6 +23,16 @@
           .then(this.Helpers.showLoader())
           .then(() => {
             return this.AuthActions.checkAuth();
+          })
+          .then(() => {
+            return Promise.resolve()
+              .then(this.Helpers.hideLoader())
+              .then(this.welcome());
+          })
+          .catch(() => {
+            return Promise.resolve()
+              .then(this.Helpers.hideLoader())
+              .then(this.login());
           });
       };
     }
